@@ -2,7 +2,7 @@ version: '3'
 
 services:
   recommender-postgres:
-    image: recommender_postgres
+    build: ./postgres_image/
     container_name: recommender_postgres
     restart: always
     environment:
@@ -18,7 +18,6 @@ services:
       retries: 5
 
   recommender:
-    image: recommender
     container_name: recommender
     depends_on:
       - recommender-postgres
@@ -26,3 +25,4 @@ services:
       - ./frontend:/frontend
     ports:
       - "127.0.0.1:8080:80"
+    build: ./
