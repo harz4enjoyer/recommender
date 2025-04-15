@@ -154,6 +154,7 @@ async fn main() -> anyhow::Result<()> {
                         .post(post_review_handler)
                         .delete(delete_review_handler),
                 )
+                .route("/recommendations", get(recommendations_handler))
                 .route("/logout", post(logout_handler))
                 .route("/delete_account", delete(delete_account_handler))
                 .route("/random_unreviewed", get(random_unreviewed_handler))
@@ -553,4 +554,28 @@ async fn random_unreviewed_handler(
     };
 
     Ok(Json(Item { name: row.get(0) }))
+}
+
+#[axum::debug_handler]
+async fn recommendations_handler(
+    LoggedInUser(username): LoggedInUser,
+    extract::State(state): extract::State<State>,
+) -> Result<Json<Vec<Item>>, AnyhowResponse> {
+    let db = state.get_db().await?;
+
+    let rows = state
+        .prepare_and_query(
+            &db,
+            sql_queries::GET_ITEM_RECOMMENDATIONS,
+            &[Type::TEXT],
+            &[&username],
+        )
+        .await
+        .context("getting recommendations")?;
+
+    Ok(Json(
+        rows.into_iter()
+            .map(|row| Item { name: row.get(0) })
+            .collect(),
+    ))
 }

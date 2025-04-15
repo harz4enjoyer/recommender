@@ -80,3 +80,75 @@ where
     review.item is null
 order by random()
 fetch first 1 row only;";
+
+pub const GET_ITEM_RECOMMENDATIONS: &str = r"
+with common_ratings as (
+    select
+        r1.item,
+        r1.username as ua,
+        r1.rating as ra,
+        r2.username as ub,
+        r2.rating as rb
+    from review as r1
+    join review as r2
+        on r1.item = r2.item
+        and r1.username < r2.username
+),
+average_ratings as (
+    select
+        username,
+        avg(rating) as avg_rating
+    from review
+    group by username
+),
+pearson as (
+    select
+        ua,
+        ub,
+        sum((ra - aa.avg_rating) * (rb - ab.avg_rating))
+            / (sqrt(sum((ra - aa.avg_rating)^2)) * sqrt(sum((rb - ab.avg_rating)^2))) as similarity
+    from common_ratings
+        join lateral 
+            (select avg_rating from average_ratings where username = ua) as aa
+            on true
+        join lateral
+            (select avg_rating from average_ratings where username = ub) as ab
+            on true
+    group by ua, ub
+),
+top_neighbors as (
+    select
+        ua,
+        ub,
+        similarity
+    from pearson
+    where similarity > 0
+    order by similarity desc
+    fetch first 50 rows only
+),
+candidate_items as (
+    select
+        r.item,
+        ua,
+        r.username as ub,
+        r.rating,
+        n.similarity
+    from review as r
+        join lateral
+            (select * from top_neighbors where ub = r.username) as n on true
+        left outer join review re on (r.item = re.item and re.username = ua)
+    where re.item is null
+),
+canidate_items_score as (
+    select
+        item,
+        ua,
+        ub,
+        avg_rating + sum((rating - avg_rating) * similarity) / sum(abs(similarity)) as score
+    from candidate_items
+        join lateral
+            (select * from average_ratings where username = ua) as aa on true
+    group by item, ua, ub, avg_rating
+    order by score desc
+)
+select item from canidate_items_score where ua = $1 fetch first 10 rows only";
