@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  recommender-postgres:
+    image: recommender_postgres
+    container_name: recommender_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: recommender
+      POSTGRES_USER: recommender
+      POSTGRES_PASSWORD: recommender
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U recommender"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  recommender:
+    image: recommender
+    container_name: recommender
+    depends_on:
+      - recommender-postgres
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "127.0.0.1:8080:80"
