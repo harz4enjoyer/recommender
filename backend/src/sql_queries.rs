@@ -74,7 +74,7 @@ from
     item left outer join review
         on (
             item.name = review.item
-            and review.username = 'bla'
+            and review.username = $1
         )
 where
     review.item is null
