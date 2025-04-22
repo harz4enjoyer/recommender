@@ -122,7 +122,7 @@ top_neighbors as (
         ub,
         similarity
     from pearson
-    where similarity > 0
+    where similarity > 0.2
     order by similarity desc
     fetch first 50 rows only
 ),
