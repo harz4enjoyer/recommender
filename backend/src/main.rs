@@ -384,7 +384,7 @@ async fn get_items_handler(
     let rows = state
         .prepare_and_query(&db, sql_queries::GET_ITEMS, &[], &[])
         .await
-        .context("failed getting items")?;
+        .context("getting items")?;
 
     let items = rows
         .into_iter()
