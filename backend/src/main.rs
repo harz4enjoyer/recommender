@@ -149,6 +149,18 @@ async fn main() -> anyhow::Result<()> {
                         .delete(delete_item_handler),
                 )
                 .route(
+                    "/features",
+                    get(get_features_handler)
+                        .post(post_feature_handler)
+                        .delete(delete_feature_handler),
+                )
+                .route(
+                    "/item_features",
+                    get(get_item_features_handler)
+                        .post(post_item_feature_handler)
+                        .delete(delete_item_feature_handler),
+                )
+                .route(
                     "/reviews",
                     get(get_reviews_handler)
                         .post(post_review_handler)
@@ -370,8 +382,175 @@ async fn delete_account_handler(
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+struct Feature {
+    name: String,
+}
+
+#[axum::debug_handler]
+async fn get_features_handler(
+    _user: LoggedInUser,
+    extract::State(state): extract::State<State>,
+) -> Result<Json<Vec<Feature>>, AnyhowResponse> {
+    let db = state.get_db().await?;
+
+    let rows = state
+        .prepare_and_query(&db, sql_queries::GET_FEATURES, &[], &[])
+        .await
+        .context("getting features")?;
+
+    let features = rows
+        .into_iter()
+        .map(|row| Feature { name: row.get(0) })
+        .collect();
+
+    Ok(Json(features))
+}
+
+#[axum::debug_handler]
+async fn post_feature_handler(
+    _user: LoggedInUser,
+    extract::State(state): extract::State<State>,
+    Json(feature): Json<Feature>,
+) -> Result<(), Either<(StatusCode, &'static str), AnyhowResponse>> {
+    let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
+
+    let name_row = state
+        .prepare_and_query_opt(
+            &db,
+            sql_queries::CREATE_FEATURE,
+            &[Type::TEXT],
+            &[&feature.name],
+        )
+        .await
+        .context("creating feature")
+        .map_err(AnyhowResponse)
+        .map_err(E2)?;
+
+    if name_row.is_none() {
+        Err(E1((StatusCode::CONFLICT, "feature already exists")))
+    } else {
+        Ok(())
+    }
+}
+
+#[axum::debug_handler]
+async fn delete_feature_handler(
+    _user: LoggedInUser,
+    extract::State(state): extract::State<State>,
+    Json(feature): Json<Feature>,
+) -> Result<(), Either<(StatusCode, &'static str), AnyhowResponse>> {
+    let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
+
+    let row = state
+        .prepare_and_query_one(
+            &db,
+            sql_queries::DELETE_FEATURE,
+            &[Type::TEXT],
+            &[&feature.name],
+        )
+        .await
+        .context("deleting feature")
+        .map_err(AnyhowResponse)
+        .map_err(E2)?;
+
+    if !row.get::<_, bool>(0) {
+        return Err(E1((StatusCode::NOT_FOUND, "no such feature")));
+    }
+
+    Ok(())
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 struct Item {
     name: String,
+}
+
+#[axum::debug_handler]
+async fn get_item_features_handler(
+    _user: LoggedInUser,
+    extract::State(state): extract::State<State>,
+    Json(item): Json<Item>,
+) -> Result<Json<Vec<Feature>>, Either<(StatusCode, &'static str), AnyhowResponse>> {
+    let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
+
+    let rows = state
+        .prepare_and_query(
+            &db,
+            sql_queries::GET_ITEM_FEATURES,
+            &[Type::TEXT],
+            &[&item.name],
+        )
+        .await
+        .context("getting item features")
+        .map_err(AnyhowResponse)
+        .map_err(E2)?;
+
+    let features = rows
+        .into_iter()
+        .map(|row| Feature { name: row.get(0) })
+        .collect();
+
+    Ok(Json(features))
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
+struct ItemFeature {
+    item: String,
+    feature: String,
+}
+
+#[axum::debug_handler]
+async fn post_item_feature_handler(
+    _user: LoggedInUser,
+    extract::State(state): extract::State<State>,
+    Json(ItemFeature { item, feature }): Json<ItemFeature>,
+) -> Result<(), Either<(StatusCode, &'static str), AnyhowResponse>> {
+    let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
+
+    let item_feature_row = state
+        .prepare_and_query_opt(
+            &db,
+            sql_queries::CREATE_ITEM_FEATURE,
+            &[Type::TEXT, Type::TEXT],
+            &[&item, &feature],
+        )
+        .await
+        .context("creating item feature")
+        .map_err(AnyhowResponse)
+        .map_err(E2)?;
+
+    if item_feature_row.is_none() {
+        Err(E1((StatusCode::CONFLICT, "item feature already exists")))
+    } else {
+        Ok(())
+    }
+}
+
+#[axum::debug_handler]
+async fn delete_item_feature_handler(
+    _user: LoggedInUser,
+    extract::State(state): extract::State<State>,
+    Json(ItemFeature { item, feature }): Json<ItemFeature>,
+) -> Result<(), Either<(StatusCode, &'static str), AnyhowResponse>> {
+    let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
+
+    let row = state
+        .prepare_and_query_one(
+            &db,
+            sql_queries::DELETE_ITEM_FEATURE,
+            &[Type::TEXT, Type::TEXT],
+            &[&item, &feature],
+        )
+        .await
+        .context("deleting item feature")
+        .map_err(AnyhowResponse)
+        .map_err(E2)?;
+
+    if !row.get::<_, bool>(0) {
+        return Err(E1((StatusCode::NOT_FOUND, "no such item feature")));
+    }
+
+    Ok(())
 }
 
 #[axum::debug_handler]
@@ -463,10 +642,12 @@ async fn register_handler(
     let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
 
     let success: bool = state
-        .prepare_and_query_one(&db, sql_queries::CREATE_USER, &[Type::TEXT, Type::TEXT], &[
-            &form.username,
-            &hash,
-        ])
+        .prepare_and_query_one(
+            &db,
+            sql_queries::CREATE_USER,
+            &[Type::TEXT, Type::TEXT],
+            &[&form.username, &hash],
+        )
         .await
         .context("creating user")
         .map_err(AnyhowResponse)
@@ -541,9 +722,12 @@ async fn random_unreviewed_handler(
     let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
 
     let row = state
-        .prepare_and_query_opt(&db, sql_queries::GET_RANDOM_UNREVIEWED, &[Type::TEXT], &[
-            &username,
-        ])
+        .prepare_and_query_opt(
+            &db,
+            sql_queries::GET_RANDOM_UNREVIEWED,
+            &[Type::TEXT],
+            &[&username],
+        )
         .await
         .context("getting random unreviewed item")
         .map_err(AnyhowResponse)

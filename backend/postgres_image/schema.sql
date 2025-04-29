@@ -2,6 +2,15 @@ create table app_user(username text primary key, password_bcrypt_hash text not n
 
 create table item(name text primary key);
 
+create table feature(name text primary key);
+
+create table item_feature(
+    item text references item(name),
+    feature text references feature(name),
+
+    primary key (item, feature)
+);
+
 create table review(
     username text references app_user on delete cascade on update cascade,
     item text references item on delete cascade on update cascade,

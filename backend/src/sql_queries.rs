@@ -40,6 +40,53 @@ as (
     returning 1
 ) select exists(select * from item_delete)";
 
+pub const GET_FEATURES: &str = "select name from feature order by name";
+
+pub const CREATE_FEATURE: &str = r"
+insert into feature(
+    name
+) values (
+    $1
+) on conflict(
+    name
+) do nothing
+returning name";
+
+pub const DELETE_FEATURE: &str = r"
+with
+    feature_delete
+as (
+    delete from feature
+    where name = $1
+    returning 1
+) select exists(select * from feature_delete)";
+
+pub const GET_ITEM_FEATURES: &str = "select feature from item_feature where item = $1";
+
+pub const CREATE_ITEM_FEATURE: &str = r"
+insert into item_feature(
+    item,
+    feature
+) values (
+    $1,
+    $2
+) on conflict(
+    item,
+    feature
+) do nothing
+returning item, feature";
+
+pub const DELETE_ITEM_FEATURE: &str = r"
+with
+    item_feature_delete
+as (
+    delete from item_feature
+    where
+        item = $1
+        and feature = $2
+    returning 1
+) select exists(select * from item_feature_delete)";
+
 pub const GET_REVIEWS: &str = "select item, rating from review where username = $1";
 
 pub const CREATE_OR_UPDATE_REVIEW: &str = r"
