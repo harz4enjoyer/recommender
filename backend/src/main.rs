@@ -19,7 +19,13 @@ use base64::Engine;
 use deadpool::managed::Object;
 use deadpool_postgres::Manager;
 use serde::{Deserialize, Serialize};
-use tokio::net::TcpListener;
+use tokio::{
+    net::TcpListener,
+    signal::{
+        self,
+        unix::{SignalKind, signal},
+    },
+};
 use tokio_postgres::{
     Row, Statement,
     types::{ToSql, Type},
@@ -123,6 +129,25 @@ impl State {
     }
 }
 
+async fn shutdown_signal() {
+    println!("listening for signals");
+
+    let ctrl_c = async {
+        signal::ctrl_c()
+            .await
+            .expect("Failed to install CTRL+C handler");
+    };
+
+    let mut sigterm = signal(SignalKind::terminate()).expect("Failed to create SIGTERM handler");
+
+    tokio::select! {
+        _ = ctrl_c => {},
+        _ = sigterm.recv() => {},
+    }
+
+    println!("got signal");
+}
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let db = deadpool_postgres::Pool::builder(deadpool_postgres::Manager::from_config(
@@ -183,6 +208,7 @@ async fn main() -> anyhow::Result<()> {
         .context("failed to bind")?;
 
     axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal())
         .await
         .context("failed to serve")?;
 
