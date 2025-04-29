@@ -20,7 +20,8 @@ services:
   recommender:
     container_name: recommender
     depends_on:
-      - recommender-postgres
+      recommender-postgres:
+        condition: service_healthy
     volumes:
       - ./frontend:/frontend
     ports:
