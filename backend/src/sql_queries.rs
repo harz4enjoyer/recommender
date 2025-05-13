@@ -129,41 +129,7 @@ order by random()
 fetch first 1 row only;";
 
 pub const GET_ITEM_RECOMMENDATIONS: &str = r"
-with common_ratings as (
-    select
-        r1.item,
-        r1.username as ua,
-        r1.rating as ra,
-        r2.username as ub,
-        r2.rating as rb
-    from review as r1
-    join review as r2
-        on r1.item = r2.item
-        and r1.username < r2.username
-),
-average_ratings as (
-    select
-        username,
-        avg(rating) as avg_rating
-    from review
-    group by username
-),
-pearson as (
-    select
-        ua,
-        ub,
-        sum((ra - aa.avg_rating) * (rb - ab.avg_rating))
-            / (sqrt(sum((ra - aa.avg_rating)^2)) * sqrt(sum((rb - ab.avg_rating)^2))) as similarity
-    from common_ratings
-        join lateral 
-            (select avg_rating from average_ratings where username = ua) as aa
-            on true
-        join lateral
-            (select avg_rating from average_ratings where username = ub) as ab
-            on true
-    group by ua, ub
-),
-top_neighbors as (
+with top_neighbors as (
     select
         ua,
         ub,
