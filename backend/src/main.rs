@@ -314,7 +314,7 @@ impl From<anyhow::Error> for AnyhowResponse {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 struct Review {
-    item: String,
+    item: Item,
     rating: i32,
 }
 
@@ -332,8 +332,11 @@ async fn get_reviews_handler(
             .context("getting user reviews")?
             .into_iter()
             .map(|row| Review {
-                item: row.get(0),
-                rating: row.get(1),
+                item: Item {
+                    name: row.get(0),
+                    category: row.get(1),
+                },
+                rating: row.get(2),
             })
             .collect(),
     ))
@@ -351,8 +354,8 @@ async fn post_review_handler(
         .prepare_and_exec(
             &db,
             sql_queries::CREATE_OR_UPDATE_REVIEW,
-            &[Type::TEXT, Type::TEXT, Type::INT4],
-            &[&username, &item, &rating],
+            &[Type::TEXT, Type::TEXT, Type::TEXT, Type::INT4],
+            &[&username, &item.name, &item.category, &rating],
         )
         .await
         .context("creating or updating review")?;
@@ -362,7 +365,7 @@ async fn post_review_handler(
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 struct ReviewItemOnly {
-    item: String,
+    item: Item,
 }
 
 #[axum::debug_handler]
@@ -377,8 +380,8 @@ async fn delete_review_handler(
         .prepare_and_query_one(
             &db,
             sql_queries::DELETE_REVIEW,
-            &[Type::TEXT, Type::TEXT],
-            &[&username, &item],
+            &[Type::TEXT, Type::TEXT, Type::TEXT],
+            &[&username, &item.name, &item.category],
         )
         .await
         .context("deleting review")
@@ -486,9 +489,10 @@ async fn delete_feature_handler(
     Ok(())
 }
 
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 struct Item {
     name: String,
+    category: String,
 }
 
 #[axum::debug_handler]
@@ -504,7 +508,7 @@ async fn get_item_features_handler(
             &db,
             sql_queries::GET_ITEM_FEATURES,
             &[Type::TEXT],
-            &[&item.name],
+            &[&item.name, &item.category],
         )
         .await
         .context("getting item features")
@@ -521,7 +525,7 @@ async fn get_item_features_handler(
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 struct ItemFeature {
-    item: String,
+    item: Item,
     feature: String,
 }
 
@@ -537,8 +541,8 @@ async fn post_item_feature_handler(
         .prepare_and_query_opt(
             &db,
             sql_queries::CREATE_ITEM_FEATURE,
-            &[Type::TEXT, Type::TEXT],
-            &[&item, &feature],
+            &[Type::TEXT, Type::TEXT, Type::TEXT],
+            &[&item.name, &item.category, &feature],
         )
         .await
         .context("creating item feature")
@@ -565,7 +569,7 @@ async fn delete_item_feature_handler(
             &db,
             sql_queries::DELETE_ITEM_FEATURE,
             &[Type::TEXT, Type::TEXT],
-            &[&item, &feature],
+            &[&item.name, &item.category, &feature],
         )
         .await
         .context("deleting item feature")
@@ -593,7 +597,10 @@ async fn get_items_handler(
 
     let items = rows
         .into_iter()
-        .map(|row| Item { name: row.get(0) })
+        .map(|row| Item {
+            name: row.get(0),
+            category: row.get(1),
+        })
         .collect();
 
     Ok(Json(items))
@@ -608,7 +615,12 @@ async fn post_item_handler(
     let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
 
     let name_row = state
-        .prepare_and_query_opt(&db, sql_queries::CREATE_ITEM, &[Type::TEXT], &[&item.name])
+        .prepare_and_query_opt(
+            &db,
+            sql_queries::CREATE_ITEM,
+            &[Type::TEXT, Type::TEXT],
+            &[&item.name, &item.category],
+        )
         .await
         .context("creating item")
         .map_err(AnyhowResponse)
@@ -630,7 +642,12 @@ async fn delete_item_handler(
     let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
 
     let row = state
-        .prepare_and_query_one(&db, sql_queries::DELETE_ITEM, &[Type::TEXT], &[&item.name])
+        .prepare_and_query_one(
+            &db,
+            sql_queries::DELETE_ITEM,
+            &[Type::TEXT],
+            &[&item.name, &item.category],
+        )
         .await
         .context("deleting item")
         .map_err(AnyhowResponse)
@@ -763,7 +780,10 @@ async fn random_unreviewed_handler(
         return Err(E1((StatusCode::NOT_FOUND, "no more unreviewed items")));
     };
 
-    Ok(Json(Item { name: row.get(0) }))
+    Ok(Json(Item {
+        name: row.get(0),
+        category: row.get(1),
+    }))
 }
 
 #[axum::debug_handler]
@@ -785,7 +805,10 @@ async fn recommendations_handler(
 
     Ok(Json(
         rows.into_iter()
-            .map(|row| Item { name: row.get(0) })
+            .map(|row| Item {
+                name: row.get(0),
+                category: row.get(1),
+            })
             .collect(),
     ))
 }
