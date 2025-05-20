@@ -19,7 +19,7 @@ pub const GET_USER_HASH: &str = "select password_bcrypt_hash from app_user where
 
 pub const DELETE_USER: &str = "delete from app_user where username = $1";
 
-pub const GET_ITEMS: &str = "select name, category from item order by name";
+pub const GET_ITEMS: &str = "select name, category from item order by category, name";
 
 pub const CREATE_ITEM: &str = r"
 insert into item(
@@ -66,7 +66,7 @@ as (
 ) select exists(select * from feature_delete)";
 
 pub const GET_ITEM_FEATURES: &str =
-    "select feature from item_feature where item_name = $1 and item_category = $2";
+    "select feature from item_feature where item_name = $1 and item_category = $2 order by feature";
 
 pub const CREATE_ITEM_FEATURE: &str = r"
 insert into item_feature(
@@ -96,8 +96,7 @@ as (
     returning 1
 ) select exists(select * from item_feature_delete)";
 
-pub const GET_REVIEWS: &str =
-    "select item_name, item_category, rating from review where username = $1";
+pub const GET_REVIEWS: &str = "select item_name, item_category, rating from review where username = $1 order by item_category, item_name";
 
 pub const CREATE_OR_UPDATE_REVIEW: &str = r"
 insert into review(
