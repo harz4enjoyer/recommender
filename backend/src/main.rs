@@ -196,7 +196,8 @@ async fn main() -> anyhow::Result<()> {
                 .route("/delete_account", delete(delete_account_handler))
                 .route("/random_unreviewed", get(random_unreviewed_handler))
                 .route("/login", post(login_handler))
-                .route("/register", post(register_handler)),
+                .route("/register", post(register_handler))
+                .route("/login_status", get(login_status_handler)),
         )
         .fallback_service(
             ServeDir::new("/frontend").fallback(ServeFile::new("/frontend/index.html")),
@@ -669,6 +670,21 @@ async fn logout_handler() -> CookieJar {
 struct RegisterData {
     username: String,
     password: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+struct LoginStatusData {
+    username: Option<String>,
+}
+
+#[axum::debug_handler]
+async fn login_status_handler(
+    user: Option<LoggedInUser>,
+    extract::State(_state): extract::State<State>,
+) -> Json<LoginStatusData> {
+    Json(LoginStatusData {
+        username: user.map(|LoggedInUser(user)| user),
+    })
 }
 
 #[axum::debug_handler]
