@@ -1,0 +1,1153 @@
+{
+  "rezepte": [
+    {
+      "id": "123e4567-e89b-12d3-a456-426614174000",
+      "name": "Vegane Bananen-Pancakes",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Dinkelmehl",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Backpulver",
+          "menge": "1",
+          "einheit": "TL"
+        },
+        {
+          "name": "Sojamilch",
+          "menge": "250",
+          "einheit": "ml"
+        }
+      ],
+      "anleitung": [
+        "Trockenzutaten in einer Schüssel mischen",
+        "Flüssige Zutaten unterrühren",
+        "Teig portionsweise in der Pfanne backen"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "name": "Tomaten-Pasta",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Spaghetti",
+          "menge": "400",
+          "einheit": "g"
+        },
+        {
+          "name": "Kirschtomaten",
+          "menge": "300",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Nudel in Salzwasser kochen",
+        "Tomaten anbraten und würzen",
+        "Alles vermengen und servieren"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "c5e8f15b-29de-4d43-9f3c-b8b5b1ea2c57",
+      "name": "Hähnchen-Curry mit Reis",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Hähnchenbrust",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Kokosmilch",
+          "menge": "400",
+          "einheit": "ml"
+        },
+        {
+          "name": "Currypaste",
+          "menge": "3",
+          "einheit": "EL"
+        }
+      ],
+      "anleitung": [
+        "Hähnchen Töten",
+        "Braten",
+        "Curry Drauf"
+      ]
+    },
+    {
+      "id": "a02a7e85-3a0c-44e6-bf98-79f9d69a345b",
+      "name": "Gemüsesuppe",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Kartoffeln",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Karotten",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Zwiebel",
+          "menge": "1",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Gemüse klein schneiden",
+        "In Gemüsebrühe kochen",
+        "Pürieren und würzen"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "de845d3a-6a3f-4f41-94e1-2d91e5f6b9d2",
+      "name": "Rindersteak mit Kartoffeln",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Rindersteak",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Kartoffeln",
+          "menge": "400",
+          "einheit": "g"
+        },
+        {
+          "name": "Knoblauch",
+          "menge": "2",
+          "einheit": "Zehen"
+        }
+      ],
+      "anleitung": [
+        "Steak scharf anbraten",
+        "Kartoffeln kochen",
+        "Alles servieren"
+      ]
+    },
+    {
+      "id": "f65935db-3b1c-4f45-bf19-1e3e51b5a2b6",
+      "name": "Linseneintopf",
+      "kategorie": "Eintopf",
+      "zutaten": [
+        {
+          "name": "Linsen",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Karotten",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Zwiebel",
+          "menge": "1",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Linsen einweichen",
+        "Mit Gemüse kochen",
+        "Mit Gewürzen abschmecken"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "1b2f2adf-4143-41d1-b251-491f814fbb2a",
+      "name": "Schoko-Brownies",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Kakaopulver",
+          "menge": "50",
+          "einheit": "g"
+        },
+        {
+          "name": "Butter",
+          "menge": "200",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Zutaten vermengen",
+        "Im Ofen backen",
+        "Abkühlen lassen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "88f658bf-946f-4b12-b27e-58c4a382e5fb",
+      "name": "Lachs mit Spargel",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Lachsfilet",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Spargel",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Zitrone",
+          "menge": "1",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Lachs anbraten",
+        "Spargel dünsten",
+        "Mit Zitronensaft servieren"
+      ]
+    },
+    {
+      "id": "ec68c7c7-2b76-4b31-86f8-784c8e9823a2",
+      "name": "Falafel mit Hummus",
+      "kategorie": "Orientalisch",
+      "zutaten": [
+        {
+          "name": "Kichererbsen",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Knoblauch",
+          "menge": "1",
+          "einheit": "Zehe"
+        },
+        {
+          "name": "Kreuzkümmel",
+          "menge": "1",
+          "einheit": "TL"
+        }
+      ],
+      "anleitung": [
+        "Kichererbsen pürieren",
+        "Würzen und zu Bällchen formen",
+        "Frittieren und mit Hummus servieren"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "78ae0b52-9dcf-4b9b-8491-8e6c9124b3a4",
+      "name": "Rührei mit Speck",
+      "kategorie": "Frühstück",
+      "zutaten": [
+        {
+          "name": "Eier",
+          "menge": "3",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Speck",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Butter",
+          "menge": "1",
+          "einheit": "EL"
+        }
+      ],
+      "anleitung": [
+        "Speck anbraten",
+        "Eier hinzufügen",
+        "Unter Rühren stocken lassen"
+      ]
+    },
+    {
+      "id": "1",
+      "name": "Lasagne",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Lasagneplatten",
+          "menge": "12",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Hackfleisch",
+          "menge": "500",
+          "einheit": "g"
+        },
+        {
+          "name": "Tomatensauce",
+          "menge": "400",
+          "einheit": "ml"
+        }
+      ],
+      "anleitung": [
+        "Hackfleisch anbraten",
+        "Mit Tomatensauce vermengen",
+        "Schichtenweise mit Lasagneplatten und Käse in eine Form geben und backen"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Kartoffelgratin",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Kartoffeln",
+          "menge": "600",
+          "einheit": "g"
+        },
+        {
+          "name": "Sahne",
+          "menge": "250",
+          "einheit": "ml"
+        },
+        {
+          "name": "Käse",
+          "menge": "100",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Kartoffeln in Scheiben schneiden",
+        "Mit Sahne übergießen und mit Käse bestreuen",
+        "Im Ofen goldbraun backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "3",
+      "name": "Apfelkuchen",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Äpfel",
+          "menge": "4",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Mehl",
+          "menge": "300d",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "150",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Teig aus Mehl, Zucker und Butter herstellen",
+        "Äpfel schälen und in Scheiben schneiden",
+        "Äpfel auf den Teig legen und backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "5",
+      "name": "Hähnchen-Gemüse-Pfanne",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Hähnchenbrust",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Paprika",
+          "menge": "1",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Zucchini",
+          "menge": "1",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Hähnchen anbraten",
+        "Paprika und Zucchini hinzufügen",
+        "Mit Gewürzen abschmecken"
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Chili con Carne",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Hackfleisch",
+          "menge": "400",
+          "einheit": "g"
+        },
+        {
+          "name": "Kidneybohnen",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Tomaten",
+          "menge": "400",
+          "einheit": "ml"
+        }
+      ],
+      "anleitung": [
+        "Hackfleisch anbraten",
+        "Bohnen und Tomaten hinzufügen",
+        "Mit Gewürzen abschmecken"
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Muffins",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Milch",
+          "menge": "200",
+          "einheit": "ml"
+        },
+        {
+          "name": "Backpulver",
+          "menge": "1",
+          "einheit": "TL"
+        },
+        {
+          "name": "Schoki",
+          "menge": "2",
+          "einheit": "Tafeln"
+        },
+        {
+          "name": "Leber",
+          "menge": "5",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Teig zubereiten",
+        "In Muffinformen füllen",
+        "Bei 180°C backen",
+        "Essen"
+      ],
+      "vegetarisch": false,
+      "vegan": false
+    },
+    {
+      "id": "9",
+      "name": "Ratatouille",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Aubergine",
+          "menge": "1",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Zucchini",
+          "menge": "1",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Paprika",
+          "menge": "1",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Gemüse in Würfel schneiden",
+        "Anbraten und schmoren lassen",
+        "Mit Kräutern verfeinern"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "10",
+      "name": "Pasta Carbonara",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Spaghetti",
+          "menge": "400",
+          "einheit": "g"
+        },
+        {
+          "name": "Speck",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Eier",
+          "menge": "3",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Pasta kochen",
+        "Speck anbraten",
+        "Mit Ei und Käse vermengen"
+      ]
+    },
+    {
+      "id": "1739397790200",
+      "name": "Linsen Klops",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Linsen ",
+          "menge": "300 ",
+          "einheit": "g"
+        },
+        {
+          "name": "Erbsenmatsch",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Eier",
+          "menge": "3",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Gewürze",
+          "menge": "3",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Alles Zusammen Matschen",
+        "In Klopse Formen",
+        "I Brat Pfanne Hauen"
+      ],
+      "vegan": false,
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Avocado-Toast",
+      "kategorie": "Frühstück",
+      "zutaten": [
+        {
+          "name": "Vollkornbrot",
+          "menge": "2",
+          "einheit": "Scheiben"
+        },
+        {
+          "name": "Avocado",
+          "menge": "1",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Zitronensaft",
+          "menge": "1",
+          "einheit": "TL"
+        }
+      ],
+      "anleitung": [
+        "Brot toasten",
+        "Avocado zerdrücken und mit Zitronensaft vermischen",
+        "Avocado-Mischung auf das Brot streichen"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b811-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Quinoa-Salat",
+      "kategorie": "Salat",
+      "zutaten": [
+        {
+          "name": "Quinoa",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Gurke",
+          "menge": "1",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Tomate",
+          "menge": "2",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Quinoa kochen",
+        "Gemüse schneiden",
+        "Alles vermengen und mit Olivenöl und Zitronensaft abschmecken"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b812-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Lachsfilet mit Dill-Sauce",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Lachsfilet",
+          "menge": "2",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Sahne",
+          "menge": "200",
+          "einheit": "ml"
+        },
+        {
+          "name": "Dill",
+          "menge": "1",
+          "einheit": "Bund"
+        }
+      ],
+      "anleitung": [
+        "Lachsfilet braten",
+        "Sahne mit Dill aufkochen",
+        "Sauce über den Lachs geben"
+      ]
+    },
+    {
+      "id": "6ba7b813-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Schokoladenkuchen",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Kakaopulver",
+          "menge": "50",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Alle Zutaten vermischen",
+        "Teig in eine gefettete Form geben",
+        "Bei 180°C für 30 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b814-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Ratatouille",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Zucchini",
+          "menge": "2",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Aubergine",
+          "menge": "1",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Paprika",
+          "menge": "2",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Gemüse schneiden",
+        "In einer Pfanne anbraten",
+        "Mit Tomatensauce abschmecken"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b815-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Apfelpfannkuchen",
+      "kategorie": "Frühstück",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Milch",
+          "menge": "200",
+          "einheit": "ml"
+        },
+        {
+          "name": "Äpfel",
+          "menge": "2",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Teig aus Mehl und Milch herstellen",
+        "Äpfel schneiden und in den Teig geben",
+        "Pfannkuchen in der Pfanne backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b816-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Thai-Gemüsecurry",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Kokosmilch",
+          "menge": "400",
+          "einheit": "ml"
+        },
+        {
+          "name": "Currypaste",
+          "menge": "2",
+          "einheit": "EL"
+        },
+        {
+          "name": "Gemüse (z.B. Brokkoli, Karotten)",
+          "menge": "300",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Gemüse anbraten",
+        "Currypaste und Kokosmilch hinzufügen",
+        "Mit Reis servieren"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b817-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Käse-Lauch-Suppe",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Lauch",
+          "menge": "2",
+          "einheit": "Stangen"
+        },
+        {
+          "name": "Kartoffeln",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Käse",
+          "menge": "150",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Lauch und Kartoffeln schneiden",
+        "In Gemüsebrühe kochen",
+        "Käse unterrühren und schmelzen lassen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b818-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Beeren-Smoothie",
+      "kategorie": "Getränk",
+      "zutaten": [
+        {
+          "name": "Beeren (gemischt)",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Joghurt",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Honig",
+          "menge": "1",
+          "einheit": "EL"
+        }
+      ],
+      "anleitung": [
+        "Beeren und Joghurt in den Mixer geben",
+        "Mit Honig süßen",
+        "Alles mixen und servieren"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b819-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Zucchini-Nudeln mit Pesto",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Zucchini",
+          "menge": "2",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Pesto",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Parmesan",
+          "menge": "50",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Zucchini in Nudelform schneiden",
+        "Mit Pesto vermengen",
+        "Mit Parmesan bestreuen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b820-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Schokoladen-Cookies",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Schokoladenstückchen",
+          "menge": "200",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Mehl, Zucker und Schokoladenstückchen vermischen",
+        "Teig zu kleinen Kugeln formen",
+        "Bei 180°C für 10-12 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b821-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Zitronenmuffins",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Zitronensaft",
+          "menge": "2",
+          "einheit": "EL"
+        }
+      ],
+      "anleitung": [
+        "Mehl und Zucker vermischen",
+        "Zitronensaft unterrühren",
+        "Teig in Muffinförmchen füllen und bei 180°C für 15 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b822-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Apfelkuchen",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Äpfel",
+          "menge": "4",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Mehl und Zucker vermischen",
+        "Äpfel schälen und in Scheiben schneiden",
+        "Teig in eine Form geben, Äpfel darauflegen und bei 180°C für 30 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b823-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Bananenbrot",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "250",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Bananen",
+          "menge": "3",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Mehl und Zucker vermischen",
+        "Bananen zerdrücken und unterrühren",
+        "Teig in eine Form geben und bei 180°C für 45 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b824-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Käsekuchen",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Magerquark",
+          "menge": "500",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Eier",
+          "menge": "3",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Magerquark, Zucker und Eier vermischen",
+        "Teig in eine Form geben",
+        "Bei 160°C für 50 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b826-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Brownies",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Kakaopulver",
+          "menge": "50",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Mehl, Zucker und Kakaopulver vermischen",
+        "Teig in eine Form geben",
+        "Bei 180°C für 25 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b827-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Kürbisbrot",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "300",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Kürbispüree",
+          "menge": "200",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Mehl und Zucker vermischen",
+        "Kürbispüree unterrühren",
+        "Teig in eine Form geben und bei 180°C für 50 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b828-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Marzipankuchen",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Mehl",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "150",
+          "einheit": "g"
+        },
+        {
+          "name": "Marzipan",
+          "menge": "200",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Mehl und Zucker vermischen",
+        "Marzipan unterrühren",
+        "Teig in eine Form geben und bei 180°C für 40 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "6ba7b829-9dad-11d1-80b4-00c04fd430c8",
+      "name": "Kokosmakronen",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "Kokosraspel",
+          "menge": "200",
+          "einheit": "g"
+        },
+        {
+          "name": "Zucker",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Eiweiß",
+          "menge": "3",
+          "einheit": "Stück"
+        }
+      ],
+      "anleitung": [
+        "Kokosraspel und Zucker vermischen",
+        "Eiweiß unterrühren",
+        "Teig zu kleinen Häufchen formen und bei 150°C für 20 Minuten backen"
+      ],
+      "vegetarisch": true
+    },
+    {
+      "id": "1739401620722",
+      "name": "HinduKush Brownie",
+      "kategorie": "Backen",
+      "zutaten": [
+        {
+          "name": "HinduKush",
+          "menge": "100",
+          "einheit": "g"
+        },
+        {
+          "name": "Brownie Teig",
+          "menge": "600",
+          "einheit": "g"
+        }
+      ],
+      "anleitung": [
+        "Mischen",
+        "Backen",
+        "Genießen"
+      ],
+      "vegan": false,
+      "vegetarisch": true
+    },
+    {
+      "id": "1740342768356",
+      "name": "Reis mit Fish",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "Fish",
+          "menge": "4",
+          "einheit": "Stück"
+        },
+        {
+          "name": "Reis",
+          "menge": "120",
+          "einheit": "Gramm"
+        }
+      ],
+      "anleitung": [
+        "Reis Waschen",
+        "Reis Kochen",
+        "Fish Braten"
+      ],
+      "vegan": false,
+      "vegetarisch": true
+    },
+    {
+      "id": "1747235243231",
+      "name": "Linux",
+      "kategorie": "Kochen",
+      "zutaten": [
+        {
+          "name": "w",
+          "menge": "w",
+          "einheit": "w"
+        },
+        {
+          "name": "w",
+          "menge": "w",
+          "einheit": "w"
+        }
+      ],
+      "anleitung": [
+        "w",
+        "w",
+        "w"
+      ],
+      "vegan": true,
+      "vegetarisch": true
+    }
+  ]
+}
