@@ -1,5 +1,5 @@
 <script setup>
-import Content from '@/components/Content.vue';
+import { ref, onMounted } from 'vue';
 </script>
 
 <template>
@@ -7,4 +7,4 @@ import Content from '@/components/Content.vue';
 
 <style scoped>
 @import '../assets/typography-styles.css';
-</style>>
+</style>
