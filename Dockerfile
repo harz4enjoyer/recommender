@@ -6,7 +6,7 @@ RUN npm run build
 
 FROM rust:latest as backend-builder
 WORKDIR /app
-COPY . .
+COPY backend/ .
 RUN cargo build --release
 
 FROM debian
