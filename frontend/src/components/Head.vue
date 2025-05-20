@@ -4,7 +4,7 @@ import Navbar from './Navbar.vue'
 
 <template>
   <header>
-    <h1 class="center style"> Simple Cook</h1>
+    <h1 class="center style">Recommender System</h1>
     <Navbar />
   </header>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar">
-    <h1 class="center style"> Simple Cook </h1>
+    <h1 class="center style">  Recommender System </h1>
     <ul>
       <li v-for="page in pages" :key="page">
         <div v-bind:class="{ 'nav-item': true, 'active': isActivePage(page) }" @click="goToPage(page)">
@@ -19,7 +19,7 @@ export default {
   name: 'NavigationBar',
   data() {
     return {
-      pages: ['Home','Recipe']
+      pages: ['Home']
     }
   },
   methods: {

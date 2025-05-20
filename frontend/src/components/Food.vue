@@ -4,7 +4,7 @@
       <div class="spacing color" @click="goTo('/Contact')"> Contact</div>
       <div class="spacing color" @click="goTo('/About')">About</div>
     </div>
-    <div class="footerRight color spacing" @click="goTo('/supersecretadminpanel')"> Anton Hellauer &#169</div>
+    <div class="footerRight color spacing"> Anton Hellauer Conrad Klugist &#169</div>
   </div>
 </template>
 
