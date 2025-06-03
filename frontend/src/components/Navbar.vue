@@ -19,7 +19,7 @@ export default {
   name: 'NavigationBar',
   data() {
     return {
-      pages: ['Home']
+      pages: ['Home', 'Login']
     }
   },
   methods: {
