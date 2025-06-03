@@ -9,7 +9,7 @@ const router = createRouter({
       name: "Home",
       component: HomeView,
     },
-    { path: "/", redirect: "/Home" },
+    { path: "/", redirect: "/Login" },
     {
       path: "/About",
       name: "About",
@@ -35,6 +35,36 @@ const router = createRouter({
       component: () => import("../views/LoginView.vue"),
     },
   ],
+});
+
+router.beforeEach(async (to, from) => {
+  try {
+    // Check if user is authenticated
+    const response = await fetch("/api/login_status");
+    const data = await response.json();
+
+    const isLoggedIn = data.username != null;
+
+    if (isLoggedIn) {
+      // User is logged in - allow navigation to any page
+      return true;
+    } else {
+      // User is not logged in
+      if (to.name === "Home") {
+        // Block access to Home page, redirect to Login
+        return { name: "Login" };
+      }
+      // Allow access to all other pages (About, Contact, Login)
+      return true;
+    }
+  } catch (error) {
+    console.error("Authentication check failed:", error);
+    // On error, redirect to login if not already there
+    if (to.name !== "Login") {
+      return { name: "Login" };
+    }
+    return true;
+  }
 });
 
 export default router;
