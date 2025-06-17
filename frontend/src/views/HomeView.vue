@@ -1,10 +1,123 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+
+const item = ref(null);
+const loading = ref(false);
+const error = ref(null);
+
+const fetchItem = async () => {
+  loading.value = true;
+  error.value = null;
+
+  try {
+    const response = await fetch('http://localhost:8080/api/random_unreviewed');
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch: ${response.status}`);
+    }
+
+    const data = await response.json();
+    item.value = data;
+
+  } catch (err) {
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchItem();
+});
 </script>
 
 <template>
+  <div class="page">
+    <div class="item-card">
+      <div v-if="loading" class="loading">Loading...</div>
+
+      <div v-else-if="error" class="error">
+        Error: {{ error }}
+      </div>
+
+      <div v-else-if="item" class="content">
+        <h2>{{ item.name }}</h2>
+        <span class="category">{{ item.category.replace('_', ' ') }}</span>
+      </div>
+    </div>
+
+    <button @click="fetchItem" class="refresh-btn" :disabled="loading">
+      {{ loading ? 'Loading...' : 'Get New Item' }}
+    </button>
+  </div>
 </template>
 
 <style scoped>
 @import '../assets/typography-styles.css';
+
+.page {
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.item-card {
+  border: 2px solid #DFAE07;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading, .error {
+  text-align: center;
+  color: #666;
+}
+
+.error {
+  color: #dc3545;
+}
+
+.content {
+  text-align: center;
+}
+
+.content h2 {
+  margin: 0 0 12px 0;
+  color: #2c3e50;
+}
+
+.category {
+  background: #e3f2fd;
+  color: #1565c0;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.9em;
+  text-transform: capitalize;
+}
+
+.refresh-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.refresh-btn:hover:not(:disabled) {
+  background: #0056b3;
+}
+
+.refresh-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+}
 </style>
