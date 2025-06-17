@@ -1,8 +1,12 @@
 FROM node:lts-alpine as frontend-builder
 WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN --mount=type=cache,target=/root/.npm \
+    npm ci
 COPY frontend/ .
-RUN npm install
-RUN npm run build
+RUN --mount=type=cache,target=/root/.npm \
+    --mount=type=cache,target=/app/frontend/node_modules/.cache \
+    npm run build
 
 FROM rust:latest as backend-builder
 WORKDIR /app
