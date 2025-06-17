@@ -131,7 +131,7 @@ onMounted(() => {
   border: 2px solid #FFD700;
   border-radius: 12px;
   padding: 12px;
-  background-color: #1e1e1e;
+  background-color: #2A2A2A;
 }
 
 .recommendations-title {
