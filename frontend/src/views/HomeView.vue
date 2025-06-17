@@ -1,3 +1,31 @@
+
+<template>
+  <div class="page">
+    <div class="item-card">
+      <div v-if="loading" class="loading">Loading...</div>
+      <div v-else-if="error" class="error">Error: {{ error }}</div>
+      <div v-else-if="item" class="content">
+        <h2>{{ item.name }}</h2>
+        <span class="category">{{ item.category.replace('_', ' ') }}</span>
+        <div class="rating-buttons">
+          <button
+            v-for="n in 11"
+            :key="n"
+            class="rating-btn"
+            @click="submitReview(n - 1)"
+            :disabled="loading"
+          >
+            {{ n - 1 }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <button @click="fetchItem" class="refresh-btn" :disabled="loading">
+      {{ loading ? 'Loading...' : 'Get New Item' }}
+    </button>
+  </div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 
@@ -8,17 +36,37 @@ const error = ref(null);
 const fetchItem = async () => {
   loading.value = true;
   error.value = null;
-
   try {
     const response = await fetch('http://localhost:8080/api/random_unreviewed');
-
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.status}`);
     }
-
     const data = await response.json();
     item.value = data;
+  } catch (err) {
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+};
 
+const submitReview = async (rating) => {
+  if (!item.value) return;
+  loading.value = true;
+  error.value = null;
+  try {
+    const response = await fetch('http://localhost:8080/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        item: item.value,
+        rating: rating,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`Review failed: ${response.status}`);
+    }
+    await fetchItem(); // Get a new item after successful review
   } catch (err) {
     error.value = err.message;
   } finally {
@@ -30,27 +78,6 @@ onMounted(() => {
   fetchItem();
 });
 </script>
-
-<template>
-  <div class="page">
-    <div class="item-card">
-      <div v-if="loading" class="loading">Loading...</div>
-
-      <div v-else-if="error" class="error">
-        Error: {{ error }}
-      </div>
-
-      <div v-else-if="item" class="content">
-        <h2>{{ item.name }}</h2>
-        <span class="category">{{ item.category.replace('_', ' ') }}</span>
-      </div>
-    </div>
-
-    <button @click="fetchItem" class="refresh-btn" :disabled="loading">
-      {{ loading ? 'Loading...' : 'Get New Item' }}
-    </button>
-  </div>
-</template>
 
 <style scoped>
 @import '../assets/typography-styles.css';
@@ -69,8 +96,10 @@ onMounted(() => {
   margin-bottom: 20px;
   min-height: 120px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #2A2A2A;
 }
 
 .loading, .error {
@@ -88,36 +117,70 @@ onMounted(() => {
 
 .content h2 {
   margin: 0 0 12px 0;
-  color: #2c3e50;
+  color: #FFD700;
 }
 
 .category {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: #ff9800;
+  color: #FFFFFF;
   padding: 6px 12px;
   border-radius: 16px;
   font-size: 0.9em;
   text-transform: capitalize;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.rating-buttons {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.rating-btn {
+  padding: 0.5rem 1rem;
+  background-color: #F5BD16;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s;
+}
+
+.rating-btn:hover:not(:disabled) {
+  background-color: #f0a500;
+}
+
+.rating-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
 }
 
 .refresh-btn {
-  background: #007bff;
+  background-color: #2A2A2A;
   color: white;
-  border: none;
+  border: 2px solid #DFAE07;
   padding: 12px 24px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1em;
   width: 100%;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .refresh-btn:hover:not(:disabled) {
-  background: #0056b3;
+  background-color: #3A3A3A;
+  border-color: #FFD700;
+  color: #FFD700;
 }
 
 .refresh-btn:disabled {
   background: #6c757d;
+  border-color: #6c757d;
   cursor: not-allowed;
 }
 </style>
+
