@@ -23,7 +23,7 @@ const checkLoginStatus = async () => {
 
     if (response.ok) {
       const data = await response.json()
-      if (data && data !== 'null') {
+      if (data && data.username) {
         username.value = data.username
         isLoggedIn.value = true
       } else {
@@ -247,4 +247,4 @@ button[type="button"]:hover {
   background-color: transparent;
   color: #D99014;
 }
-</style>/style>/style>
+</style>
