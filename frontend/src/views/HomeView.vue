@@ -1,28 +1,46 @@
 
 <template>
-  <div class="page">
-    <div class="item-card">
-      <div v-if="loading" class="loading">Loading...</div>
-      <div v-else-if="error" class="error">Error: {{ error }}</div>
-      <div v-else-if="item" class="content">
-        <h2>{{ item.name }}</h2>
-        <span class="category">{{ item.category.replace('_', ' ') }}</span>
-        <div class="rating-buttons">
-          <button
-            v-for="n in 11"
-            :key="n"
-            class="rating-btn"
-            @click="submitReview(n - 1)"
-            :disabled="loading"
-          >
-            {{ n - 1 }}
-          </button>
+  <div class="page-layout">
+    <!-- Recommendations Box -->
+    <div class="recommendations-box">
+      <h3 class="recommendations-title">Recommendations</h3>
+      <div class="recommendations-list">
+        <div
+          v-for="rec in recommendations"
+          :key="rec.name"
+          class="recommendation-card"
+        >
+          <strong>{{ rec.name }}</strong>
+          <span class="category">{{ rec.category.replace('_', ' ') }}</span>
         </div>
       </div>
     </div>
-    <button @click="fetchItem" class="refresh-btn" :disabled="loading">
-      {{ loading ? 'Loading...' : 'Get New Item' }}
-    </button>
+
+    <!-- Main Rating Section -->
+    <div class="page">
+      <div class="item-card">
+        <div v-if="loading" class="loading">Loading...</div>
+        <div v-else-if="error" class="error">Error: {{ error }}</div>
+        <div v-else-if="item" class="content">
+          <h2>{{ item.name }}</h2>
+          <span class="category">{{ item.category.replace('_', ' ') }}</span>
+          <div class="rating-buttons">
+            <button
+              v-for="n in 11"
+              :key="n"
+              class="rating-btn"
+              @click="submitReview(n - 1)"
+              :disabled="loading"
+            >
+              {{ n - 1 }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <button @click="fetchItem" class="refresh-btn" :disabled="loading">
+        {{ loading ? 'Loading...' : 'Get New Item' }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -32,6 +50,7 @@ import { ref, onMounted } from 'vue';
 const item = ref(null);
 const loading = ref(false);
 const error = ref(null);
+const recommendations = ref([]);
 
 const fetchItem = async () => {
   loading.value = true;
@@ -39,7 +58,7 @@ const fetchItem = async () => {
   try {
     const response = await fetch('http://localhost:8080/api/random_unreviewed');
     if (!response.ok) {
-      throw new Error(`Failed to fetch: ${response.status}`);
+      throw new Error(`Failed to fetch item: ${response.status}`);
     }
     const data = await response.json();
     item.value = data;
@@ -47,6 +66,19 @@ const fetchItem = async () => {
     error.value = err.message;
   } finally {
     loading.value = false;
+  }
+};
+
+const fetchRecommendations = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/api/recommendations');
+    if (!response.ok) {
+      throw new Error(`Failed to fetch recommendations: ${response.status}`);
+    }
+    const data = await response.json();
+    recommendations.value = data;
+  } catch (err) {
+    console.error('Error fetching recommendations:', err.message);
   }
 };
 
@@ -66,7 +98,8 @@ const submitReview = async (rating) => {
     if (!response.ok) {
       throw new Error(`Review failed: ${response.status}`);
     }
-    await fetchItem(); // Get a new item after successful review
+    await fetchItem();             // Load new item
+    await fetchRecommendations();  // Refresh recommendations
   } catch (err) {
     error.value = err.message;
   } finally {
@@ -76,16 +109,66 @@ const submitReview = async (rating) => {
 
 onMounted(() => {
   fetchItem();
+  fetchRecommendations();
 });
 </script>
 
 <style scoped>
 @import '../assets/typography-styles.css';
 
-.page {
+.page-layout {
+  display: flex;
+  gap: 20px;
   padding: 20px;
-  max-width: 500px;
+  max-width: 1000px;
   margin: 0 auto;
+}
+
+/* Box around recommendations */
+.recommendations-box {
+  flex: 1;
+  max-width: 240px;
+  border: 2px solid #FFD700;
+  border-radius: 12px;
+  padding: 12px;
+  background-color: #1e1e1e;
+}
+
+.recommendations-title {
+  font-size: 1.1em;
+  color: #FFD700;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.recommendation-card {
+  background-color: #3b3b3b;
+  border-left: 3px solid #f5bd16;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 0.75em;
+  line-height: 1.1;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-card .category {
+  font-size: 0.7em;
+  color: #ccc;
+  text-transform: capitalize;
+}
+
+.page {
+  flex: 2;
 }
 
 .item-card {
