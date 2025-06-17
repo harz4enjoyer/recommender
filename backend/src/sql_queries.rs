@@ -187,5 +187,27 @@ candidate_items_score as (
             (select * from average_ratings where username = ua) as aa on true
     group by item_name, item_category, ua, ub, avg_rating
     order by score desc
+),
+collaborative_filtering as (
+    select item_name, item_category from candidate_items_score where ua = $1 fetch first 10 rows only
+),
+average_item_ratings as (
+    select
+        item_name,
+        item_category,
+        avg(rating) as avg_rating
+    from item
+        join review on item_name = name and item_category = category
+    group by item_name, item_category
+    order by avg_rating desc
 )
-select item_name, item_category from candidate_items_score where ua = $1 fetch first 10 rows only";
+select * from collaborative_filtering
+
+union
+
+select
+    item_name,
+    item_category
+from average_item_ratings
+fetch first 10 rows only
+";
