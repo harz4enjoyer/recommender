@@ -1,6 +1,7 @@
 use std::str::FromStr;
 
 use anyhow::Context;
+use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier, password_hash::SaltString};
 use axum::{
     Json, Router,
     extract::{self, FromRequestParts, OptionalFromRequestParts},
@@ -18,6 +19,7 @@ use axum_extra::{
 use base64::Engine;
 use deadpool::managed::Object;
 use deadpool_postgres::Manager;
+use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use tokio::{
     net::TcpListener,
@@ -148,6 +150,15 @@ async fn shutdown_signal() {
     println!("got signal");
 }
 
+fn check_hash(password: &[u8], hash: &str) -> bool {
+    Argon2::default()
+        .verify_password(
+            &password,
+            &PasswordHash::new(&hash).expect("invalid password hash"),
+        )
+        .is_ok()
+}
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     let db = deadpool_postgres::Pool::builder(deadpool_postgres::Manager::from_config(
@@ -273,11 +284,7 @@ impl FromRequestParts<State> for LoggedInUser {
             return require_logged_in;
         };
 
-        if bcrypt::verify(&pass, &hash_row.get::<_, String>(0))
-            .context("failed to verify hash")
-            .map_err(AnyhowResponse)
-            .map_err(E2)?
-        {
+        if check_hash(&pass, &hash_row.get::<_, String>(0)) {
             Ok(Self(user))
         } else {
             require_logged_in
@@ -692,10 +699,9 @@ async fn register_handler(
     extract::State(state): extract::State<State>,
     form: Json<RegisterData>,
 ) -> Result<(CookieJar, ()), Either<(StatusCode, &'static str), AnyhowResponse>> {
-    let hash = bcrypt::hash_with_result(&form.password, bcrypt::DEFAULT_COST)
-        .context("failed hashing password")
-        .map_err(AnyhowResponse)
-        .map_err(E2)?
+    let hash = Argon2::default()
+        .hash_password(form.password.as_bytes(), &SaltString::generate(&mut OsRng))
+        .expect("failed hashing password")
         .to_string();
 
     let db = state.get_db().await.map_err(AnyhowResponse).map_err(E2)?;
@@ -751,11 +757,7 @@ async fn login_handler(
         return unauth;
     };
 
-    if !bcrypt::verify(&password, &hash.get::<_, String>(0))
-        .context("failed to verify hash")
-        .map_err(AnyhowResponse)
-        .map_err(E2)?
-    {
+    if !check_hash(password.as_bytes(), &hash.get::<_, String>(0)) {
         return unauth;
     }
 

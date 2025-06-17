@@ -1,4 +1,4 @@
-create table app_user(username text primary key, password_bcrypt_hash text not null);
+create table app_user(username text primary key, password_argon2_hash text not null);
 
 create table item(name text, category text, primary key (name, category));
 

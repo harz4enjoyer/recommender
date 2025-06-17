@@ -4,7 +4,7 @@ with
 as (
     insert into app_user(
         username,
-        password_bcrypt_hash
+        password_argon2_hash
     ) values (
         $1,
         $2
@@ -15,7 +15,7 @@ as (
 )
 select exists (select * from user_insert)";
 
-pub const GET_USER_HASH: &str = "select password_bcrypt_hash from app_user where username = $1";
+pub const GET_USER_HASH: &str = "select password_argon2_hash from app_user where username = $1";
 
 pub const DELETE_USER: &str = "delete from app_user where username = $1";
 
