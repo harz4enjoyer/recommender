@@ -71,6 +71,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #2A2A2A;
 }
 
 .loading, .error {
@@ -88,12 +89,12 @@ onMounted(() => {
 
 .content h2 {
   margin: 0 0 12px 0;
-  color: #2c3e50;
+  color: #FFD700;
 }
 
 .category {
-  background: #e3f2fd;
-  color: #1565c0;
+  background: #ff9800;
+  color: #FFFFFF;
   padding: 6px 12px;
   border-radius: 16px;
   font-size: 0.9em;
@@ -101,7 +102,7 @@ onMounted(() => {
 }
 
 .refresh-btn {
-  background: #007bff;
+  background: #ffcc00;
   color: white;
   border: none;
   padding: 12px 24px;
