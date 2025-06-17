@@ -1,3 +1,21 @@
+<template>
+  <div class="page">
+    <div class="item-card">
+      <div v-if="loading" class="loading">Loading...</div>
+      <div v-else-if="error" class="error">
+        Error: {{ error }}
+      </div>
+      <div v-else-if="item" class="content">
+        <h2>{{ item.name }}</h2>
+        <span class="category">{{ item.category.replace('_', ' ') }}</span>
+      </div>
+    </div>
+    <button @click="fetchItem" class="refresh-btn" :disabled="loading">
+      {{ loading ? 'Loading...' : 'Get New Item' }}
+    </button>
+  </div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 
@@ -8,17 +26,13 @@ const error = ref(null);
 const fetchItem = async () => {
   loading.value = true;
   error.value = null;
-
   try {
     const response = await fetch('http://localhost:8080/api/random_unreviewed');
-
     if (!response.ok) {
       throw new Error(`Failed to fetch: ${response.status}`);
     }
-
     const data = await response.json();
     item.value = data;
-
   } catch (err) {
     error.value = err.message;
   } finally {
@@ -30,27 +44,6 @@ onMounted(() => {
   fetchItem();
 });
 </script>
-
-<template>
-  <div class="page">
-    <div class="item-card">
-      <div v-if="loading" class="loading">Loading...</div>
-
-      <div v-else-if="error" class="error">
-        Error: {{ error }}
-      </div>
-
-      <div v-else-if="item" class="content">
-        <h2>{{ item.name }}</h2>
-        <span class="category">{{ item.category.replace('_', ' ') }}</span>
-      </div>
-    </div>
-
-    <button @click="fetchItem" class="refresh-btn" :disabled="loading">
-      {{ loading ? 'Loading...' : 'Get New Item' }}
-    </button>
-  </div>
-</template>
 
 <style scoped>
 @import '../assets/typography-styles.css';
@@ -102,23 +95,25 @@ onMounted(() => {
 }
 
 .refresh-btn {
-  background: #ffcc00;
+  background-color: #2A2A2A;
   color: white;
-  border: none;
+  border: 2px solid #DFAE07;
   padding: 12px 24px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1em;
   width: 100%;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .refresh-btn:hover:not(:disabled) {
-  background: #0056b3;
+  background-color: #3A3A3A;
+  border-color: #FFD700;
+  color: #FFD700;
 }
 
 .refresh-btn:disabled {
   background: #6c757d;
+  border-color: #6c757d;
   cursor: not-allowed;
-}
-</style>
+}</style>
