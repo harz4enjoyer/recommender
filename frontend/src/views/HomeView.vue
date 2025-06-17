@@ -1,13 +1,23 @@
+
 <template>
   <div class="page">
     <div class="item-card">
       <div v-if="loading" class="loading">Loading...</div>
-      <div v-else-if="error" class="error">
-        Error: {{ error }}
-      </div>
+      <div v-else-if="error" class="error">Error: {{ error }}</div>
       <div v-else-if="item" class="content">
         <h2>{{ item.name }}</h2>
         <span class="category">{{ item.category.replace('_', ' ') }}</span>
+        <div class="rating-buttons">
+          <button
+            v-for="n in 11"
+            :key="n"
+            class="rating-btn"
+            @click="submitReview(n - 1)"
+            :disabled="loading"
+          >
+            {{ n - 1 }}
+          </button>
+        </div>
       </div>
     </div>
     <button @click="fetchItem" class="refresh-btn" :disabled="loading">
@@ -40,6 +50,30 @@ const fetchItem = async () => {
   }
 };
 
+const submitReview = async (rating) => {
+  if (!item.value) return;
+  loading.value = true;
+  error.value = null;
+  try {
+    const response = await fetch('http://localhost:8080/api/reviews', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        item: item.value,
+        rating: rating,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`Review failed: ${response.status}`);
+    }
+    await fetchItem(); // Get a new item after successful review
+  } catch (err) {
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+};
+
 onMounted(() => {
   fetchItem();
 });
@@ -62,6 +96,7 @@ onMounted(() => {
   margin-bottom: 20px;
   min-height: 120px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #2A2A2A;
@@ -92,6 +127,36 @@ onMounted(() => {
   border-radius: 16px;
   font-size: 0.9em;
   text-transform: capitalize;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.rating-buttons {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.rating-btn {
+  padding: 0.5rem 1rem;
+  background-color: #F5BD16;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.2s;
+}
+
+.rating-btn:hover:not(:disabled) {
+  background-color: #f0a500;
+}
+
+.rating-btn:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
 }
 
 .refresh-btn {
@@ -116,4 +181,6 @@ onMounted(() => {
   background: #6c757d;
   border-color: #6c757d;
   cursor: not-allowed;
-}</style>
+}
+</style>
+
