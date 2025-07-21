@@ -200,14 +200,22 @@ average_item_ratings as (
         join review on item_name = name and item_category = category
     group by item_name, item_category
     order by avg_rating desc
+),
+pre_filtered as (
+    select * from collaborative_filtering
+
+    union
+
+    select
+        item_name,
+        item_category
+    from average_item_ratings
 )
-select * from collaborative_filtering
-
-union
-
 select
-    item_name,
-    item_category
-from average_item_ratings
+    p.item_name,
+    p.item_category
+from pre_filtered p
+    left join review r on (p.item_name = r.item_name and p.item_category = r.item_category and username = $1)
+where r.item_name is null
 fetch first 10 rows only
 ";
