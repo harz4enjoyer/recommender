@@ -5,14 +5,15 @@
     <div class="recommendations-box">
       <h3 class="recommendations-title">Recommendations</h3>
       <div class="recommendations-list">
-        <div
+                <button
           v-for="rec in recommendations"
           :key="rec.name"
           class="recommendation-card"
+          @click="reviewRecommendation(rec)"
         >
           <strong>{{ rec.name }}</strong>
           <span class="category">{{ rec.category.replace('_', ' ') }}</span>
-        </div>
+        </button>
       </div>
     </div>
 
@@ -29,6 +30,7 @@
               v-for="n in 11"
               :key="n"
               class="rating-btn"
+              :style="getRatingButtonColor(n - 1)"
               @click="submitReview(n - 1)"
               :disabled="loading"
             >
@@ -107,10 +109,21 @@ const submitReview = async (rating) => {
   }
 };
 
+const getRatingButtonColor = (rating) => {
+  const ratio = rating / 10;
+  const red = Math.round(255 * (1 - ratio));
+  const green = Math.round(255 * ratio);
+  return { backgroundColor: `rgb(${red}, ${green}, 0)` };
+};
+
 onMounted(() => {
   fetchItem();
   fetchRecommendations();
 });
+
+const reviewRecommendation = (recommendation) => {
+  item.value = recommendation;
+};
 </script>
 
 <style scoped>
@@ -120,14 +133,14 @@ onMounted(() => {
   display: flex;
   gap: 20px;
   padding: 20px;
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 /* Box around recommendations */
 .recommendations-box {
   flex: 1;
-  max-width: 240px;
+  max-width: 400px;
   border: 2px solid #FFD700;
   border-radius: 12px;
   padding: 12px;
@@ -144,25 +157,31 @@ onMounted(() => {
 .recommendations-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   max-height: 500px;
   overflow-y: auto;
 }
 
 .recommendation-card {
   background-color: #3b3b3b;
-  border-left: 3px solid #f5bd16;
-  padding: 6px 8px;
-  border-radius: 6px;
-  font-size: 0.75em;
-  line-height: 1.1;
+  border-left: 4px solid #f5bd16;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.9em;
+  line-height: 1.4;
   color: white;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.recommendation-card:hover {
+  background-color: #4a4a4a;
 }
 
 .recommendation-card .category {
-  font-size: 0.7em;
+  font-size: 0.8em;
   color: #ccc;
   text-transform: capitalize;
 }
@@ -224,7 +243,6 @@ onMounted(() => {
 
 .rating-btn {
   padding: 0.5rem 1rem;
-  background-color: #F5BD16;
   color: white;
   border: none;
   border-radius: 4px;
@@ -234,7 +252,7 @@ onMounted(() => {
 }
 
 .rating-btn:hover:not(:disabled) {
-  background-color: #f0a500;
+  filter: brightness(1.2);
 }
 
 .rating-btn:disabled {

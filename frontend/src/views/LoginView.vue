@@ -1,6 +1,7 @@
 <script setup>
 import Content from '@/components/Content.vue'
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const username = ref('')
 const password = ref('')
@@ -9,6 +10,7 @@ const message = ref('')
 const isLoggedIn = ref(false)
 const isRegistering = ref(false)
 const isLoading = ref(true)
+const router = useRouter()
 
 // Check login status on component mount
 const checkLoginStatus = async () => {
@@ -57,6 +59,7 @@ const handleLogin = async () => {
       message.value = 'Login successful!'
       isLoggedIn.value = true
       password.value = '' // Clear password after successful login
+      router.push({ name: 'Home' })
     } else {
       message.value = 'Login failed. Please check your credentials.'
     }
@@ -122,6 +125,32 @@ const handleLogout = async () => {
     console.error('Logout error:', error)
   }
 }
+
+const handleDeleteAccount = async () => {
+  if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+    try {
+      const response = await fetch('http://localhost:8080/api/delete_account', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        message.value = 'Account deleted successfully.';
+        isLoggedIn.value = false;
+        username.value = '';
+        password.value = '';
+      } else {
+        message.value = 'Failed to delete account.';
+      }
+    } catch (error) {
+      message.value = 'Error connecting to server.';
+      console.error('Delete account error:', error);
+    }
+  }
+};
 
 const toggleMode = () => {
   isRegistering.value = !isRegistering.value
@@ -191,6 +220,7 @@ onMounted(() => {
       <div v-if="isLoggedIn">
         <p>Welcome! You are logged in as {{ username }}.</p>
         <button @click="handleLogout">Logout</button>
+        <button @click="handleDeleteAccount">Delete Account</button>
       </div>
 
       <!-- Message Display -->

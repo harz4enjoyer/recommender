@@ -1,7 +1,7 @@
 /* styles/typography.css */
  h1,
  h2 {
-  color: #D99014;
+  color: var(--color-heading);
   margin-top: 2rem;
 }
 
@@ -39,11 +39,11 @@
 .text-center {
   text-align: center;
   font-style: italic;
-  color: #666;
+  color: var(--color-text);
 }
 
  a {
-  color: #3498db;
+  color: var(--color-text);
   text-decoration: none;
 }
 
