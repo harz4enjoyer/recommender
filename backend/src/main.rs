@@ -27,6 +27,8 @@ use tokio::{
         self,
         unix::{SignalKind, signal},
     },
+    sync::broadcast,
+    time,
 };
 use tokio_postgres::{
     Row, Statement,
@@ -131,7 +133,7 @@ impl State {
     }
 }
 
-async fn shutdown_signal() {
+async fn shutdown_signal(shutdown_sender: broadcast::Sender<()>) {
     println!("listening for signals");
 
     let ctrl_c = async {
@@ -148,6 +150,7 @@ async fn shutdown_signal() {
     }
 
     println!("got signal");
+    shutdown_sender.send(()).expect("failed sending shutdown");
 }
 
 fn check_hash(password: &[u8], hash: &str) -> bool {
@@ -213,18 +216,49 @@ async fn main() -> anyhow::Result<()> {
         .fallback_service(
             ServeDir::new("/frontend").fallback(ServeFile::new("/frontend/index.html")),
         )
-        .with_state(State { db });
+        .with_state(State { db: db.clone() });
 
     let listener = TcpListener::bind("0.0.0.0:80")
         .await
         .context("failed to bind")?;
 
+    let (shutdown_sender, mut shutdown_receiver) = broadcast::channel(1);
+
+    tokio::spawn(refresh_pearson(db, shutdown_sender.subscribe()));
+
+    tokio::spawn(shutdown_signal(shutdown_sender));
+
     axum::serve(listener, app)
-        .with_graceful_shutdown(shutdown_signal())
+        .with_graceful_shutdown(async move {
+            shutdown_receiver
+                .recv()
+                .await
+                .expect("failed receiving shutdown")
+        })
         .await
         .context("failed to serve")?;
 
     Ok(())
+}
+
+async fn refresh_pearson(db: deadpool_postgres::Pool, mut shutdown: broadcast::Receiver<()>) {
+    let mut timer = time::interval(time::Duration::from_secs(60));
+
+    loop {
+        tokio::select! {
+            _ = timer.tick() => {
+                db.get()
+                    .await
+                    .expect("failed connecting to database")
+                    .execute("refresh materialized view pearson", &[])
+                    .await
+                    .expect("failed refreshing pearson");
+            }
+            _ = shutdown.recv() => {
+                break;
+            }
+        }
+    }
 }
 
 struct LoggedInUser(String);
