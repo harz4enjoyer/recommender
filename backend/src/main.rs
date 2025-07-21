@@ -242,7 +242,7 @@ async fn main() -> anyhow::Result<()> {
 }
 
 async fn refresh_pearson(db: deadpool_postgres::Pool, mut shutdown: broadcast::Receiver<()>) {
-    let mut timer = time::interval(time::Duration::from_secs(60));
+    let mut timer = time::interval(time::Duration::from_secs(30));
 
     loop {
         tokio::select! {
