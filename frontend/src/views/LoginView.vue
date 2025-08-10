@@ -15,7 +15,7 @@ const router = useRouter()
 // Check login status on component mount
 const checkLoginStatus = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/login_status', {
+    const response = await fetch('/api/login_status', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const checkLoginStatus = async () => {
 
 const handleLogin = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/login', {
+    const response = await fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const handleRegister = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:8080/api/register', {
+    const response = await fetch('/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -105,7 +105,7 @@ const handleRegister = async () => {
 
 const handleLogout = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/logout', {
+    const response = await fetch('/api/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ const handleLogout = async () => {
 const handleDeleteAccount = async () => {
   if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
     try {
-      const response = await fetch('http://localhost:8080/api/delete_account', {
+      const response = await fetch('/api/delete_account', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

@@ -58,7 +58,7 @@ const fetchItem = async () => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await fetch('http://localhost:8080/api/random_unreviewed');
+    const response = await fetch('/api/random_unreviewed');
     if (!response.ok) {
       throw new Error(`Failed to fetch item: ${response.status}`);
     }
@@ -73,7 +73,7 @@ const fetchItem = async () => {
 
 const fetchRecommendations = async () => {
   try {
-    const response = await fetch('http://localhost:8080/api/recommendations');
+    const response = await fetch('/api/recommendations');
     if (!response.ok) {
       throw new Error(`Failed to fetch recommendations: ${response.status}`);
     }
@@ -89,7 +89,7 @@ const submitReview = async (rating) => {
   loading.value = true;
   error.value = null;
   try {
-    const response = await fetch('http://localhost:8080/api/reviews', {
+    const response = await fetch('/api/reviews', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

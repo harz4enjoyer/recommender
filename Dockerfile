@@ -19,4 +19,4 @@ RUN --mount=type=cache,target=/app/target \
 FROM docker.io/library/debian
 COPY --from=backend-builder /tmp/recommender /recommender
 COPY --from=frontend-builder /app/frontend/dist /frontend
-ENTRYPOINT ["/recommender"]
+ENTRYPOINT ["/recommender", "host = recommender_postgres user = recommender password = recommender", "0.0.0.0:80", "/frontend"]

@@ -1,6 +1,6 @@
-use std::str::FromStr;
+use std::{env::args, str::FromStr};
 
-use anyhow::Context;
+use anyhow::{Context, anyhow};
 use argon2::{Argon2, PasswordHash, PasswordHasher, PasswordVerifier, password_hash::SaltString};
 use axum::{
     Json, Router,
@@ -164,11 +164,14 @@ fn check_hash(password: &[u8], hash: &str) -> bool {
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
+    let args: Vec<String> = args().skip(1).collect();
+    if args.len() != 3 {
+        return Err(anyhow!(
+            "expected connection_url, listen_addr and static dir"
+        ));
+    }
     let db = deadpool_postgres::Pool::builder(deadpool_postgres::Manager::from_config(
-        tokio_postgres::Config::from_str(
-            "host = recommender_postgres user = recommender password = recommender",
-        )
-        .context("invalid postgres connect url")?,
+        tokio_postgres::Config::from_str(&args[0]).context("invalid postgres connect url")?,
         tokio_postgres::NoTls,
         deadpool_postgres::ManagerConfig::default(),
     ))
@@ -213,12 +216,10 @@ async fn main() -> anyhow::Result<()> {
                 .route("/register", post(register_handler))
                 .route("/login_status", get(login_status_handler)),
         )
-        .fallback_service(
-            ServeDir::new("/frontend").fallback(ServeFile::new("/frontend/index.html")),
-        )
+        .fallback_service(ServeDir::new(&args[2]).fallback(ServeFile::new("/frontend/index.html")))
         .with_state(State { db: db.clone() });
 
-    let listener = TcpListener::bind("0.0.0.0:80")
+    let listener = TcpListener::bind(&args[1])
         .await
         .context("failed to bind")?;
 
