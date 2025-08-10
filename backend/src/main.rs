@@ -21,15 +21,9 @@ use deadpool::managed::Object;
 use deadpool_postgres::Manager;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
-use tokio::{
-    net::TcpListener,
-    signal::{
-        self,
-        unix::{SignalKind, signal},
-    },
-    sync::broadcast,
-    time,
-};
+#[cfg(unix)]
+use tokio::signal::unix::{SignalKind, signal};
+use tokio::{net::TcpListener, signal, sync::broadcast, time};
 use tokio_postgres::{
     Row, Statement,
     types::{ToSql, Type},
@@ -142,12 +136,17 @@ async fn shutdown_signal(shutdown_sender: broadcast::Sender<()>) {
             .expect("Failed to install CTRL+C handler");
     };
 
+    #[cfg(unix)]
     let mut sigterm = signal(SignalKind::terminate()).expect("Failed to create SIGTERM handler");
 
+    #[cfg(unix)]
     tokio::select! {
         _ = ctrl_c => {},
         _ = sigterm.recv() => {},
     }
+
+    #[cfg(not(unix))]
+    ctrl_c.await;
 
     println!("got signal");
     shutdown_sender.send(()).expect("failed sending shutdown");
@@ -156,8 +155,8 @@ async fn shutdown_signal(shutdown_sender: broadcast::Sender<()>) {
 fn check_hash(password: &[u8], hash: &str) -> bool {
     Argon2::default()
         .verify_password(
-            &password,
-            &PasswordHash::new(&hash).expect("invalid password hash"),
+            password,
+            &PasswordHash::new(hash).expect("invalid password hash"),
         )
         .is_ok()
 }
